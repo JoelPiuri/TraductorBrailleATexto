@@ -4,31 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Translation;
-use Illuminate\Support\Facades\Log;
 
 class TranslationController extends Controller
 {
     public function translateToBraille(Request $request)
     {
-        try {
-            $text = $request->input('text');
-            Log::info("Received text for translation: $text");
-            $braille = $this->convertToBraille($text);
-            Log::info("Translated to braille: $braille");
-            return response()->json(['braille' => $braille]);
-        } catch (\Exception $e) {
-            Log::error("Error translating text: " . $e->getMessage());
-            return response()->json(['error' => 'Translation failed'], 500);
-        }
+        $text = $request->input('text');
+        $braille = $this->convertToBraille($text);
+        return response()->json(['braille' => $braille]);
     }
 
     private function convertToBraille($text)
     {
-        $text = strtolower($text);
         $brailleText = '';
+        $uppercaseMarker = '⠠';  // Braille indicator for uppercase letters
 
         for ($i = 0; $i < strlen($text); $i++) {
             $char = $text[$i];
+
+            if (ctype_upper($char)) {
+                $brailleText .= $uppercaseMarker;
+                $char = strtolower($char);
+            }
+
             $translation = Translation::where('character', $char)->first();
             if ($translation) {
                 $brailleText .= $translation->braille;
@@ -40,3 +38,4 @@ class TranslationController extends Controller
         return $brailleText;
     }
 }
+
