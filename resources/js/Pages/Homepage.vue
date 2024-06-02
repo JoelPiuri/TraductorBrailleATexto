@@ -23,11 +23,11 @@
             <div class="result-box">
               <div>
                 <h3>Lectura:</h3>
-                <p class="rtl">{{ spanishToBrailleResult }}</p>
+                <p>{{ spanishToBrailleResult }}</p>
               </div>
               <div>
                 <h3>Escritura Manual:</h3>
-                <p>{{ spanishToBrailleResult }}</p>
+                <p class="rtl">{{ spanishToBrailleResult }}</p>
               </div>
             </div>
           </div>
