@@ -22,7 +22,7 @@ Por lo tanto, la instalación de esta herramienta es fundamental para asegurarse
 **Abrir la terminal de Laragon**\
 4. Instalar dependencias php con el comando 
 ```
-composer
+composer install
 ```
 5. Instalar dependencias Inertia.js con el comando 
 ```
