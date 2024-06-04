@@ -20,12 +20,30 @@ Por lo tanto, la instalación de esta herramienta es fundamental para asegurarse
 	- Copie el archivo .env.example y renómbrelo a .env directamente en Visual Studio Code.
 
 **Abrir la terminal de Laragon**\
-4. Instalar dependencias php con el comando `composer`\
-5. Instalar dependencias Inertia.js con el comando `npm install`\
-6. Generar la Key de la Aplicación con el comando php artisan `key:generate`\
-7. Migrar las Tablas en la Base de Datos con el comando `php artisan migrate`\
-8. Poblar las Tablas con el comando `php artisan db:seed --class=TranslationsTableSeeder`\
-9. Para que los cambios en los archivos Vue.js sean notorios usar el comando `npm run dev`
+4. Instalar dependencias php con el comando 
+```
+composer
+```
+5. Instalar dependencias Inertia.js con el comando 
+```
+npm install
+```
+7. Generar la Key de la Aplicación con el comando php artisan 
+```
+key:generate
+```
+9. Migrar las Tablas en la Base de Datos con el comando 
+```
+php artisan migrate
+```
+11. Poblar las Tablas con el comando 
+```
+php artisan db:seed --class=TranslationsTableSeeder
+```
+13. Para que los cambios en los archivos Vue.js sean notorios usar el comando 
+```
+npm run dev
+```
 
 
 **Adicional**
