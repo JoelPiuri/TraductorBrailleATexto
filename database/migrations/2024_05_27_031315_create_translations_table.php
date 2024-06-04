@@ -10,7 +10,7 @@ class CreateTranslationsTable extends Migration
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->id();
-            $table->char('character', 1)->unique();
+            $table->char('character', 1);
             $table->string('braille');
             $table->timestamps();
         });

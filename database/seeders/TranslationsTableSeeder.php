@@ -81,6 +81,13 @@ class TranslationsTableSeeder extends Seeder
             ['character' => '|', 'braille' => '⠸⠶'],
             ['character' => '~', 'braille' => '⠘⠹'],
             ['character' => '`', 'braille' => '⠐'],
+            //tildes
+            ['character' => 'á', 'braille' => '⠷'],
+            ['character' => 'é', 'braille' => '⠮'],
+            ['character' => 'í', 'braille' => '⠌'],
+            ['character' => 'ó', 'braille' => '⠬'],
+            ['character' => 'ú', 'braille' => '⠾'],
+
         ];
 
         DB::table('translations')->insert($translations);
