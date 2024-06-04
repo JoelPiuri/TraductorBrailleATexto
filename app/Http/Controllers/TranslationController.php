@@ -4,24 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Translation;
+use Illuminate\Support\Facades\Log;
 
 class TranslationController extends Controller
 {
     public function translateToBraille(Request $request)
     {
-        $text = $request->input('text');
-        $braille = $this->convertToBraille($text);
-        return response()->json(['braille' => $braille]);
+        try {
+            $text = $request->input('text');
+            Log::info("Received text for translation: $text");
+            $braille = $this->convertToBraille($text);
+            Log::info("Translated to braille: $braille");
+            return response()->json(['braille' => $braille]);
+        } catch (\Exception $e) {
+            Log::error("Error translating text: " . $e->getMessage());
+            return response()->json(['error' => 'Translation failed'], 500);
+        }
     }
 
     private function convertToBraille($text)
     {
         $brailleText = '';
-        $uppercaseMarker = '⠠';  // Braille indicator for uppercase letters
+        $uppercaseMarker = '⠨';  // Braille indicator for uppercase letters
+        $numberMarker = '⠼';     // Braille indicator for numbers
+        $isNumberSequence = false;
 
         for ($i = 0; $i < strlen($text); $i++) {
             $char = $text[$i];
 
+            // Detect if the character is a number
+            if (is_numeric($char)) {
+                if (!$isNumberSequence) {
+                    $brailleText .= $numberMarker;
+                    $isNumberSequence = true;
+                }
+            } else {
+                $isNumberSequence = false;
+            }
+
+            // Detect uppercase letters
             if (ctype_upper($char)) {
                 $brailleText .= $uppercaseMarker;
                 $char = strtolower($char);
@@ -31,7 +52,7 @@ class TranslationController extends Controller
             if ($translation) {
                 $brailleText .= $translation->braille;
             } else {
-                $brailleText .= '?'; // O cualquier otro marcador para caracteres no encontrados
+                $brailleText .= 'NO ENCONTRADO CARACTER'; // O cualquier otro marcador para caracteres no encontrados
             }
         }
 

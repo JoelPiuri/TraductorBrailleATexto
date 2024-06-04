@@ -27,7 +27,7 @@
               </div>
               <div>
                 <h3>Escritura Manual:</h3>
-                <p class="rtl">{{ spanishToBrailleResult }}</p>
+                <p class="mirror-text">{{ spanishToBrailleResult }}</p>
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     translateBrailleToSpanish() {
-      // Lógica de traducción de Braille a Español
+
       this.brailleToSpanishResult = 'Traducción simulada';
     },
     translateSpanishToBraille() {
