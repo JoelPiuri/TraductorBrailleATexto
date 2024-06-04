@@ -16,9 +16,9 @@ class TranslationController extends Controller
 
     public function translateToEspanol(Request $request)
     {
-        $text = $request->input('text');
-        $espanol = $this->convertToEspanol($text);
-        return response()->json(['' => $espanol]);
+        $brailleTextInput = $request->input('brailleTextInput'); // Cambiado de text a brailleTextInput
+        $espanol = $this->convertToText($brailleTextInput);
+        return response()->json(['espanol' => $espanol]);
     }
 
     private function convertToBraille($text)
@@ -34,7 +34,10 @@ class TranslationController extends Controller
                 $char = strtolower($char);
             }
 
-            $translation = Translation::where('character', $char)->first();
+            $translationModel = new Translation();
+            $translationModel->setTable('translation');
+
+            $translation = $translationModel::where('character', $char)->first();
             if ($translation) {
                 $brailleText .= $translation->braille;
             } else {
@@ -45,30 +48,40 @@ class TranslationController extends Controller
         return $brailleText;
     }
 
-    private function convertToText($brailleText)
-    {
-        $textOutput = '';
-        $uppercaseMarker = '⠠';
-    
-        for ($i = 0; $i < strlen($brailleText); $i++) {
-            $char = $brailleText[$i];
-    
-            if ($char === $uppercaseMarker) {
-                // Siguiente carácter será en mayúscula
-                $i++;
-                $char = strtoupper($brailleText[$i]);
-            }
-    
-            $translation = Translation::where('braille', $char)->first();
-            if ($translation) {
-                $textOutput .= $translation->character;
-            } else {
-                $textOutput .= '?'; // Carácter no encontrado en la tabla de traducción
-            }
+    private function convertToText($brailleTextInput)
+{
+    $textOutput = '';
+    $translationModel = new Translation();
+    $translationModel->setTable('translationsBrailleEsp');
+
+    // Variable para mantener la traducción actual
+    $currentTranslation = '';
+
+    // Obtener todas las traducciones de braille a texto de una vez
+    $translations = $translationModel->all()->keyBy('braille');
+
+    for ($i = 0; $i < strlen($brailleTextInput); $i++) {
+        $char = $brailleTextInput[$i];
+
+        if ($char === '⠠') {
+            // Cambio a mayúscula
+            $currentTranslation .= strtoupper($brailleTextInput[++$i]);
+        } else {
+            $currentTranslation .= $char;
         }
-    
-        return $textOutput;
+
+        // Buscar la traducción actual en las traducciones previamente obtenidas
+        if (isset($translations[$currentTranslation])) {
+            $textOutput .= $translations[$currentTranslation]->character;
+            $currentTranslation = ''; // Reiniciar la traducción actual
+        } else {
+            // Si no se encuentra la traducción, continuar construyendo la traducción actual
+            // en caso de que sea una cadena de braille más larga
+        }
     }
+
+    return $textOutput;
+}
 
 }
 
