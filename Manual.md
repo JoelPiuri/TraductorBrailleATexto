@@ -28,9 +28,9 @@ composer install
 ```
 npm install
 ```
-7. Generar la Key de la Aplicación con el comando php artisan 
+7. Generar la Key de la Aplicación con el comando
 ```
-key:generate
+php artisan key:generate
 ```
 9. Migrar las Tablas en la Base de Datos con el comando 
 ```
@@ -48,7 +48,12 @@ npm run dev
 
 **Adicional**
 <p>
-    Para limpiar la Base de Datos usamos el comando `php artisan migrate:refresh`
+    Para limpiar la Base de Datos usamos el comando 
+
+    
+    php artisan migrate:refresh
+    
+    
 </p>
 
 
