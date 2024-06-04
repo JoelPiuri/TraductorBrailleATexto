@@ -14,6 +14,13 @@ class TranslationController extends Controller
         return response()->json(['braille' => $braille]);
     }
 
+    public function translateToEspanol(Request $request)
+    {
+        $text = $request->input('text');
+        $espanol = $this->convertToEspanol($text);
+        return response()->json(['' => $espanol]);
+    }
+
     private function convertToBraille($text)
     {
         $brailleText = '';
@@ -37,5 +44,31 @@ class TranslationController extends Controller
 
         return $brailleText;
     }
+
+    private function convertToText($brailleText)
+    {
+        $textOutput = '';
+        $uppercaseMarker = '⠠';
+    
+        for ($i = 0; $i < strlen($brailleText); $i++) {
+            $char = $brailleText[$i];
+    
+            if ($char === $uppercaseMarker) {
+                // Siguiente carácter será en mayúscula
+                $i++;
+                $char = strtoupper($brailleText[$i]);
+            }
+    
+            $translation = Translation::where('braille', $char)->first();
+            if ($translation) {
+                $textOutput .= $translation->character;
+            } else {
+                $textOutput .= '?'; // Carácter no encontrado en la tabla de traducción
+            }
+        }
+    
+        return $textOutput;
+    }
+
 }
 

@@ -14,11 +14,19 @@ class CreateTranslationsTable extends Migration
             $table->string('braille');
             $table->timestamps();
         });
+        
+        Schema::create('translationsBrailleEsp', function (Blueprint $table) {
+            $table->id();
+            $table->string('braille', 1);
+            $table->string('character');
+            $table->timestamps();
+        });
     }
 
     public function down()
     {
         Schema::dropIfExists('translations');
+        Schema::dropIfExists('translationsBrailleEsp');
     }
 }
 
