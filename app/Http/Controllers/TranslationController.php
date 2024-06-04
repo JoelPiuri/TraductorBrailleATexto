@@ -29,8 +29,8 @@ class TranslationController extends Controller
         $numberMarker = '⠼';     // Braille indicator for numbers
         $isNumberSequence = false;
 
-        for ($i = 0; $i < strlen($text); $i++) {
-            $char = $text[$i];
+        for ($i = 0; $i < mb_strlen($text); $i++) {
+            $char = mb_substr($text, $i, 1);
 
             // Detect if the character is a number
             if (is_numeric($char)) {
@@ -45,18 +45,19 @@ class TranslationController extends Controller
             // Detect uppercase letters
             if (ctype_upper($char)) {
                 $brailleText .= $uppercaseMarker;
-                $char = strtolower($char);
+                $char = mb_strtolower($char);
             }
 
-            $translation = Translation::where('character', $char)->first();
+            Log::info("Translating character: $char");
+            $translation = Translation::where('caracterEspanol', $char)->first();
             if ($translation) {
                 $brailleText .= $translation->braille;
             } else {
-                $brailleText .= 'NO ENCONTRADO CARACTER'; // O cualquier otro marcador para caracteres no encontrados
+                Log::warning("Character not found: $char");
+                $brailleText .= '?'; // O cualquier otro marcador para caracteres no encontrados
             }
         }
 
         return $brailleText;
     }
 }
-
