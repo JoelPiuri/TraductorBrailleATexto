@@ -12,13 +12,13 @@ return new class extends Migration {
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->id();
-            $table->char('caracterEspanol', 1)->unique();
+            $table->char('caracterEspanol', 1)->collation('utf8mb4_bin')->unique();
             $table->string('braille');
             $table->timestamps();
 
             // Establecer charset y collation
             $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_unicode_ci';
+            $table->collation = 'utf8mb4_bin';
         });
     }
 
@@ -30,5 +30,4 @@ return new class extends Migration {
         Schema::dropIfExists('translations');
     }
 };
-
 

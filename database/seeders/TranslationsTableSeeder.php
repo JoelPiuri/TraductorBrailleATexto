@@ -85,6 +85,12 @@ class TranslationsTableSeeder extends Seeder
             ['caracterEspanol' => '|', 'braille' => '⠸⠶'],
             ['caracterEspanol' => '~', 'braille' => '⠘⠹'],
             ['caracterEspanol' => '`', 'braille' => '⠐'],
+            //tildes
+            ['caracterEspanol' => 'á', 'braille' => '⠷'],
+            ['caracterEspanol' => 'é', 'braille' => '⠮'],
+            ['caracterEspanol' => 'í', 'braille' => '⠌'],
+            ['caracterEspanol' => 'ó', 'braille' => '⠬'],
+            ['caracterEspanol' => 'ú', 'braille' => '⠾'],
             
 
         ];
