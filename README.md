@@ -62,48 +62,6 @@ Braille Cat Traducciones es una aplicación web diseñada para traducir texto en
 - Node.js y npm
 - MySQL
 
-### Pasos de Instalación
-
-1. **Clonar el Repositorio:**
-   ```sh
-   git clone <url-del-repositorio>
-   cd <nombre-del-proyecto>
-   ```
-
-2. **Instalar Dependencias:**
-   ```sh
-   composer install
-   npm install
-   ```
-
-3. **Configurar el Archivo `.env`:**
-   Copiar el archivo `.env.example` a `.env` y configurar las variables de entorno, especialmente la configuración de la base de datos.
-
-4. **Generar la Clave de la Aplicación:**
-   ```sh
-   php artisan key:generate
-   ```
-
-5. **Migrar la Base de Datos:**
-   ```sh
-   php artisan migrate
-   ```
-
-6. **Poblar la Base de Datos:**
-   ```sh
-   php artisan db:seed --class=TranslationsTableSeeder
-   ```
-
-7. **Compilar Assets:**
-   ```sh
-   npm run dev
-   ```
-
-8. **Iniciar el Servidor de Desarrollo:**
-   ```sh
-   php artisan serve
-   ```
-
 ## Documentación del Código Fuente
 
 ### Controladores
@@ -128,16 +86,6 @@ Componente del encabezado.
 
 #### `Homepage.vue`
 Página principal que contiene el formulario de traducción.
-
-## Base de Datos de Conocimiento
-
-| ID  | Descripción de la Dificultad/Defecto                               | Categoría           | Solución                                               |
-|-----|-------------------------------------------------------------------|---------------------|--------------------------------------------------------|
-| 001 | No se reconocen caracteres con tildes en la traducción            | Caracteres Especiales| Asegurar que la base de datos y la aplicación usen UTF-8|
-| 002 | Error de migración por conflicto de claves únicas                 | Migraciones         | Revisar y ajustar las migraciones para evitar duplicados|
-| 003 | Problemas con la importación de componentes Vue.js                | Componentes Vue.js  | Verificar rutas de importación y nombres de archivos    |
-| 004 | Error 500 en la traducción                                         | API                 | Revisar los logs de Laravel para identificar y solucionar errores|
-| 005 | La aplicación no se carga debido a bloqueadores de anuncios       | Frontend            | Desactivar bloqueadores de anuncios durante el desarrollo|
 
 ## Contribuciones
 
