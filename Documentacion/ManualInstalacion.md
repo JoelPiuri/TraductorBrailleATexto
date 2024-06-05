@@ -12,6 +12,14 @@ Esta herramienta es esencial por las siguientes razones:
 Git Bash: Ofrece un entorno de línea de comandos basado en Unix en Windows, permitiendo utilizar comandos Git y scripts de shell de manera similar a cómo se harían en sistemas operativos basados en Unix (como Linux y macOS). Esto es particularmente útil para desarrolladores que están acostumbrados a trabajar en entornos Unix o que necesitan ejecutar scripts específicos que requieren un entorno Unix.
 Por lo tanto, la instalación de esta herramienta es fundamental para asegurarse de que Visual Studio Code pueda interactuar correctamente con Git, permitiendo a los desarrolladores gestionar el código fuente de manera efectiva y aprovechar al máximo las capacidades de control de versiones que ofrece Git.
 
+## Requisitos Previos
+
+    PHP >= 7.4
+    Composer
+    Node.js y npm
+    Servidor MySQL o MariaDB
+
+
 ## Instalación en otra máquina desde un repositorio Git
 1. Descargar e instalar Laragon enlace: https://laragon.org/download/index.html
 2. Clonar el repositorio en la carpeta Laragon/www. Utilice GitDesk para clonar el repositorio. En el campo "Local Path", ingrese la ruta correspondiente a la carpeta www de Laragon (por ejemplo, C:\laragon\www).
