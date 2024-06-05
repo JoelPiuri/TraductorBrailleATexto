@@ -1,6 +1,3 @@
-Claro, aquí tienes un ejemplo de una presentación en formato Markdown para el proyecto "Braille Cat Traducciones". Puedes cargar este archivo en GitHub como `README.md`.
-
-
 # Braille Cat Traducciones
 
 ## Descripción del Proyecto
