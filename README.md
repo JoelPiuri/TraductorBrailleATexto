@@ -62,30 +62,6 @@ Braille Cat Traducciones es una aplicación web diseñada para traducir texto en
 - Node.js y npm
 - MySQL
 
-## Documentación del Código Fuente
-
-### Controladores
-
-#### `TranslationController.php`
-Maneja las solicitudes de traducción y se comunica con el modelo `Translation`.
-
-### Modelos
-
-#### `Translation.php`
-Representa la tabla de traducciones en la base de datos.
-
-### Rutas
-
-#### `web.php`
-Define las rutas web de la aplicación, incluyendo las rutas para la traducción.
-
-### Componentes Vue.js
-
-#### `HeaderComponent.vue`
-Componente del encabezado.
-
-#### `Homepage.vue`
-Página principal que contiene el formulario de traducción.
 
 ## Contribuciones
 
@@ -103,6 +79,4 @@ Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENS
 ---
 
 Con esta documentación, esperamos que cualquier programador pueda comprender, configurar y contribuir al proyecto "Braille Cat Traducciones" de manera efectiva.
-```
 
-Este archivo README.md proporciona una descripción detallada del proyecto, las instrucciones de instalación y configuración, la estructura del código fuente, la base de datos de conocimiento, y las directrices para contribuciones. Puedes personalizarlo aún más según tus necesidades antes de cargarlo en GitHub.
