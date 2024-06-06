@@ -14,4 +14,5 @@ class Translation extends Model
         $this->table = $table;
         return $this;
     }
+
 }
