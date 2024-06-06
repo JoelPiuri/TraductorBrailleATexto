@@ -22,9 +22,25 @@ class TranslationController extends Controller
         }
     }
 
+    public function translateToEspanol(Request $request)
+    {
+        try {
+            $brailleText = $request->input('brailleText');
+            Log::info("Received text for translation: $brailleText");
+            $espanol = $this->convertToText($brailleText);
+            Log::info("Translated to espanol: $espanol");
+            return response()->json(['espanol' => $espanol]);
+        } catch (\Exception $e) {
+            Log::error("Error translating text: " . $e->getMessage());
+            return response()->json(['error' => 'Translation failed'], 500);
+        }
+    }
+
     private function convertToBraille($text)
     {
         $brailleText = '';
+        $translationModel = new Translation();
+        $translationModel->setTable('translations');
         $uppercaseMarker = '⠨';  // Braille indicator for uppercase letters
         $numberMarker = '⠼';     // Braille indicator for numbers
         $isNumberSequence = false;
@@ -49,7 +65,7 @@ class TranslationController extends Controller
             }
 
             Log::info("Translating character: $char");
-            $translation = Translation::where('caracterEspanol', $char)->first();
+            $translation = $translationModel::where('caracterEspanol', $char)->first();
             if ($translation) {
                 $brailleText .= $translation->braille;
             } else {
@@ -60,4 +76,78 @@ class TranslationController extends Controller
 
         return $brailleText;
     }
+
+        private function convertToText($braille)
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+        $text = '';
+        $uppercaseMarker = '⠨';  // Braille indicator for uppercase letters
+        $numberMarker = '⠼';     // Braille indicator for numbers
+        $isUppercase = false;
+        $isNumberSequence = false;
+
+        // Limpiar la cadena de entrada de espacios en blanco
+        $braille = trim($braille);
+
+        // Validar que $braille contenga solo caracteres Braille válidos
+        if (!preg_match('/^[ ⠀⠁-⣿]*$/', $braille)) {
+            echo "Input is not a valid Braille string";
+            return '';
+        }
+
+        $brailleLength = mb_strlen($braille);
+        for ($i = 0; $i < $brailleLength; $i++) {
+            $char = mb_substr($braille, $i, 1);
+
+            // Detectar indicador de mayúsculas
+            if ($char === $uppercaseMarker) {
+                $isUppercase = true;
+                continue;
+            }
+
+            // Detectar indicador de números
+            if ($char === $numberMarker) {
+                $isNumberSequence = true;
+                continue;
+            }
+
+            $translation = $translationModel::where('braille', $char)->first();
+            if ($translation) {
+                $translatedChar = $translation->character;
+
+                // Manejar letras mayúsculas
+                if ($isUppercase) {
+                    $translatedChar = mb_strtoupper($translatedChar);
+                    $isUppercase = false;
+                }
+
+                // Manejar números
+                if ($isNumberSequence) {
+                    if (is_numeric($translatedChar)) {
+                        $text .= $translatedChar;
+                    } else {
+                        echo "Expected a number but found: $translatedChar";
+                        $text .= '?'; // O cualquier otro marcador para caracteres no encontrados
+                    }
+                    $isNumberSequence = false;
+                } else {
+                    $text .= $translatedChar;
+                }
+            } else {
+                echo "Braille character not found: $char";
+                $text .= '?'; // O cualquier otro marcador para caracteres no encontrados
+            }
+        }
+
+        return $text;
+    }
+
+    
+    
+
+    
+    
+
+
 }

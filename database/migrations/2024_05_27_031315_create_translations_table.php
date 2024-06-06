@@ -20,6 +20,18 @@ return new class extends Migration {
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_bin';
         });
+
+        Schema::create('translationsBrailleEsp', function (Blueprint $table) {
+            $table->id();
+            $table->string('braille');
+            $table->char('character', 1)->collation('utf8mb4_bin')->unique();
+            $table->timestamps();
+    
+            // Establecer charset y collation
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_bin';
+        });
+
     }
 
     /**
@@ -28,6 +40,7 @@ return new class extends Migration {
     public function down()
     {
         Schema::dropIfExists('translations');
+        Schema::dropIfExists('translationsBrailleEsp');
     }
 };
 

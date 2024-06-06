@@ -18,3 +18,4 @@ Route::get('/diccionario', function () {
 });
 
 Route::post('/translate-to-braille', [TranslationController::class, 'translateToBraille']);
+Route::post('/translate-to-espanol', [TranslationController::class, 'translateToEspanol']);

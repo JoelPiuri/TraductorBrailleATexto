@@ -60,8 +60,16 @@ export default {
     },
     methods: {
         translateBrailleToSpanish() {
+    // Decodificar la cadena Braille
+    var decodedBrailleInput = decodeURIComponent(this.brailleInput);
 
-            this.brailleToSpanishResult = 'Traducción simulada';
+            axios.post('/translate-to-espanol', { text: decodedBrailleInput })
+                .then(response => {
+                    this.brailleToSpanishResult = response.data.espanol;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         translateSpanishToBraille() {
             axios.post('/translate-to-braille', { text: this.spanishInput })
