@@ -12,12 +12,12 @@
             <div>
                 <h3>Lectura:</h3>
                 <p>{{ spanishToBrailleResult }}</p>
-                <button @click="saveAsImage">Descargar Imagen</button>
+                <button @click="saveAsImage" class="otherbutton">Descargar Imagen</button>
             </div>
             <div>
                 <h3>Escritura Manual:</h3>
                 <p class="mirror-text">{{ spanishToBrailleResult }}</p>
-                <button @click="saveAsPDF">Descargar PDF</button>
+                <button @click="saveAsPDF" class="otherbutton">Descargar PDF</button>
             </div>
         </div>
     </div>
