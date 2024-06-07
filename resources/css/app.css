@@ -136,18 +136,50 @@ textarea {
     border-radius: 0.25rem;
 }
 
+.button-list {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    list-style: none;
+    margin: 10px 0;
+}
+
+.button-list li {
+    display: inline;
+}
+
+.left-button {
+    text-align: left;
+}
+
+.right-button {
+    text-align: right;
+}
+
+.clear-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.clear-button:hover {
+    background-color: #c82333;
+}
+
 button {
-    background-color: #007bff;
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #007BFF;
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 0.25rem;
 }
 
 button:hover {
     background-color: #0056b3;
 }
+
+
 
 h3 {
     margin: 0.5rem 0;

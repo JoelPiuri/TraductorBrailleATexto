@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Translation;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade as PDF;
+use Intervention\Image\Facades\Image;
 
 class TranslationController extends Controller
 {
@@ -59,5 +61,49 @@ class TranslationController extends Controller
         }
 
         return $brailleText;
+    }
+
+    public function downloadImage(Request $request)
+    {
+        try {
+            $braille = $request->input('braille');
+            Log::info("Received braille text for image generation: $braille");
+
+            if (empty($braille)) {
+                Log::error("No braille text provided");
+                return response()->json(['error' => 'No braille text provided'], 400);
+            }
+
+            $img = Image::canvas(800, 200, '#fff');
+            $img->text($braille, 400, 100, function ($font) {
+                $font->file(public_path('fonts/NotoSans-Regular.ttf'));
+                $font->size(48);
+                $font->color('#000');
+                $font->align('center');
+                $font->valign('center');
+            });
+            Log::info("Image generated successfully with braille text: $braille");
+
+            $path = public_path('braille.png');
+            $img->save($path);
+            Log::info("Image saved at path: $path");
+
+            return response()->download($path)->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            Log::error("Error generating image: " . $e->getMessage());
+            return response()->json(['error' => 'Image generation failed'], 500);
+        }
+    }
+
+    public function downloadPDF(Request $request)
+    {
+        try {
+            $text = $request->input('text');
+            $pdf = PDF::loadView('pdf_view', compact('text'));
+            return $pdf->download('manual-writing.pdf');
+        } catch (\Exception $e) {
+            Log::error("Error generating PDF: " . $e->getMessage());
+            return response()->json(['error' => 'PDF generation failed'], 500);
+        }
     }
 }
