@@ -24,7 +24,7 @@ return new class extends Migration {
         Schema::create('translationsBrailleEsp', function (Blueprint $table) {
             $table->id();
             $table->string('braille');
-            $table->char('character', 1)->collation('utf8mb4_bin')->unique();
+            $table->string('character', 1)->collation('utf8mb4_bin')->unique();
             $table->timestamps();
     
             // Establecer charset y collation

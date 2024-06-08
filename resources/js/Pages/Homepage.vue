@@ -60,10 +60,7 @@ export default {
     },
     methods: {
         translateBrailleToSpanish() {
-    // Decodificar la cadena Braille
-    var decodedBrailleInput = decodeURIComponent(this.brailleInput);
-
-            axios.post('/translate-to-espanol', { text: decodedBrailleInput })
+            axios.post('/translate-to-espanol', { text: this.brailleInput })
                 .then(response => {
                     this.brailleToSpanishResult = response.data.espanol;
                 })
