@@ -18,7 +18,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'HomePage',
+    name: 'BrailleToEspanol',
     data() {
         return {
             brailleInput: '',
@@ -27,13 +27,18 @@ export default {
     },
     methods: {
         translateBrailleToSpanish() {
-
-            this.brailleToSpanishResult = 'Traducción simulada';
+            axios.post('/translate-to-espanol', { text: this.brailleInput })
+                .then(response => {
+                    this.brailleToSpanishResult = response.data.espanol;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         deleatText() {
             this.brailleInput = '';
             this.brailleToSpanishResult = '';
-        },
+        }
     }
 }
 </script>
