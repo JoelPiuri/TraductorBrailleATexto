@@ -74,7 +74,7 @@ class TranslationController extends Controller
                 return response()->json(['error' => 'No braille text provided'], 400);
             }
 
-            $img = Image::canvas(800, 200, '#fff');
+            $img = Image::canvas(800, 700, '#fff');
             $img->text($braille, 400, 100, function ($font) {
                 $font->file(public_path('fonts/NotoSans-Regular.ttf'));
                 $font->size(48);

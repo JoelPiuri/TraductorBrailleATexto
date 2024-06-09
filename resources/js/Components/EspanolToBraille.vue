@@ -49,7 +49,7 @@ export default {
             this.spanishToBrailleResult = '';
         },
         saveAsImage() {
-            
+
             if (!this.spanishToBrailleResult) {
                 console.error('No braille text to save as image.');
                 return;
