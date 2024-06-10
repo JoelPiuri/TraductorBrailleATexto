@@ -1,0 +1,30 @@
+### Documento de Trazabilidad de Artefactos
+
+Aquí se presenta un documento de trazabilidad que relaciona los requisitos, casos de prueba y módulos de código:
+
+#### Trazabilidad de Requisitos
+
+| ID del Requisito | Descripción del Requisito                | Módulo Relacionado                                | Estado     |
+|------------------|------------------------------------------|--------------------------------------------------|------------|
+| RQ-01            | Traducción de texto a Braille            | `app/Http/Controllers/TranslationController.php` | Completado |
+| RQ-02            | Soporte para múltiples idiomas           | `app/Services/TranslationService.php`            | En progreso|
+| RQ-03            | Interfaz web                             | `resources/views/`, `public/js/app.js`           | Completado |
+
+#### Trazabilidad de Casos de Prueba
+
+| ID del Caso de Prueba | Descripción del Caso de Prueba                    | Requisito Relacionado | Estado     |
+|-----------------------|---------------------------------------------------|-----------------------|------------|
+| TC-01                 | Verificar traducción correcta de texto a Braille  | RQ-01                 | Completado |
+| TC-02                 | Verificar soporte para idioma español             | RQ-02                 | En progreso|
+| TC-03                 | Verificar carga de la interfaz web                | RQ-03                 | Completado |
+
+#### Trazabilidad del Código
+
+| Módulo/Archivo                           | Descripción                                   | Requisito Relacionado | Estado     |
+|------------------------------------------|-----------------------------------------------|-----------------------|------------|
+| `app/Http/Controllers/TranslationController.php` | Controlador principal para la traducción       | RQ-01                 | Completado |
+| `app/Services/TranslationService.php`    | Servicio que maneja la lógica de traducción   | RQ-02                 | En progreso|
+| `resources/views/`                       | Vistas para la interfaz web                   | RQ-03                 | Completado |
+| `public/js/app.js`                       | Código JavaScript para la interfaz web        | RQ-03                 | Completado |
+
+Esta documentación proporciona una visión clara y estructurada del desarrollo del proyecto y facilita la gestión y seguimiento de los artefactos involucrados.
