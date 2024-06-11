@@ -166,8 +166,8 @@ class TranslationsTableSeeder extends Seeder
         ['braille' => '⠒', 'caracterEspanol' => ':'],
         ['braille' => '⠖', 'caracterEspanol' => '!'],
         ['braille' => '⠦', 'caracterEspanol' => '?'],
-        ['braille' => '⠶', 'caracterEspanol' => '('],
-        ['braille' => '⠶', 'caracterEspanol' => ')'],
+        ['braille' => '⠶', 'caracterEspanol' => '('], // ejemplo: elige solo uno
+        // ['braille' => '⠶', 'caracterEspanol' => ')'], // eliminar esta línea
         ['braille' => '⠤', 'caracterEspanol' => '-'],
         ['braille' => '⠌', 'caracterEspanol' => '/'],
         ['braille' => '⠈⠁', 'caracterEspanol' => '@'],
@@ -192,6 +192,7 @@ class TranslationsTableSeeder extends Seeder
         ['braille' => '⠸⠶', 'caracterEspanol' => '|'],
         ['braille' => '⠘⠹', 'caracterEspanol' => '~'],
         ['braille' => '⠐', 'caracterEspanol' => '`'],
+        
     ];
 
     DB::table('translationsBrailleEsp')->insert($translationsBrailleEsp);
