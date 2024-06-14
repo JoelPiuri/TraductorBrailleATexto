@@ -171,7 +171,7 @@ button {
     background-color: #007BFF;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: px;
     cursor: pointer;
 }
 
@@ -196,3 +196,16 @@ h3 {
     transform: scaleX(-1);
     direction: rtl;
 }
+  
+  .key {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #000;
+    cursor: pointer;
+  }
+  
+  .keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 300px;
+  }

@@ -38,6 +38,7 @@ return new class extends Migration {
             $table->id();
             $table->string('braille');
             $table->string('caracterEspanol');
+            $table->string('tipoCaracter');
             $table->timestamps();
         });
 

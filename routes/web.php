@@ -23,3 +23,5 @@ Route::post('/translate-to-braille', [TranslationController::class, 'translateTo
 Route::post('/download-image', [TranslationController::class, 'downloadImage']);
 Route::get('/download-pdf', [TranslationController::class, 'downloadPDF']);
 Route::post('/translate-to-espanol', [BrailleEspanolTranslationsController::class, 'translateToEspanol']);
+Route::post('/teclado-braille', [BrailleEspanolTranslationsController::class, 'getLetters']);
+Route::post('/teclado-braille-number', [BrailleEspanolTranslationsController::class, 'getNumbers']);

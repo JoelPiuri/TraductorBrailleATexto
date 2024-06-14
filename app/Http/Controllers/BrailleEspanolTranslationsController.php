@@ -70,25 +70,39 @@ class BrailleEspanolTranslationsController extends Controller
             if ($i + 1 < $brailleLength) {
                 $nextString = mb_substr($braille, $i + 1, 1);
                 $multiChar .= $nextString;
+                Log::info("Caracter especial encontrado: $multiChar");
+
             }
+
+            Log::info("Antes de mandar como caracter especial: $multiChar");
+
     
-            $translation = $translationModel::where('braille', $multiChar)->first();
+            $query = $translationModel::where('braille', $string);
     
+            if ($isNumberSequence) {
+                $query = $query->where('caracterEspanol', '>=', '0')->where('caracterEspanol', '<=', '9');
+            }
+
+            $translation = $query->first();
+
             if ($translation) {
                 $translatedChar = $translation->caracterEspanol;
-                $i++; // Saltar el siguiente carácter porque ya fue procesado como parte del carácter especial
                 Log::info("Carácter especial traducido: $translatedChar");
             } else {
                 // Si no es un carácter especial, comprobar el carácter individual
+                Log::info("Antes de mandar como caracter individual: $multiChar");
+
                 $translation = $translationModel::where('braille', $string)->first();
                 if ($translation) {
+
                     $translatedChar = $translation->caracterEspanol;
                     Log::info("Carácter traducido: $translatedChar");
-                } else {
-                    // Si no se encuentra la traducción, agregar un marcador de carácter no encontrado
+
+                    }else{
                     $translatedChar = '?';
                     Log::info("No se encontró traducción para: $string, marcador especial añadido: ?");
                 }
+                
             }
     
             // Manejar letras mayúsculas
@@ -106,7 +120,37 @@ class BrailleEspanolTranslationsController extends Controller
         return $text;
     }
     
-    
+    public function getLetters()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
 
+        $letters = $translationModel->where('tipoCaracter', 'letra')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($letters);
+    }
+
+    public function getNumbers()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $numbers = $translationModel->where('tipoCaracter', 'numero')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($numbers);
+    }
+
+    public function getSpecialCaracter()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $lettersSpecial = $translationModel->where('tipoCaracter', 'caracterEspecial')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($lettersSpecial);
+    }
 
 }
