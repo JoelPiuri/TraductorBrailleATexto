@@ -197,15 +197,20 @@ h3 {
     direction: rtl;
 }
   
-  .key {
-    margin: 5px;
-    padding: 10px;
-    border: 1px solid #000;
-    cursor: pointer;
-  }
-  
   .keyboard {
     display: flex;
-    flex-wrap: wrap;
-    max-width: 300px;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .letters-section, .numbers-section, .special-letters-section {
+    display: flex;
+    flex-direction: column;
+    gap: center;
+  }
+  .key {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px;
   }

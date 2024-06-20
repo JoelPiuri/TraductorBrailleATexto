@@ -147,10 +147,10 @@ class BrailleEspanolTranslationsController extends Controller
         $translationModel = new Translation();
         $translationModel->setTable('translationsBrailleEsp');
 
-        $lettersSpecial = $translationModel->where('tipoCaracter', 'caracterEspecial')
+        $specialLetters = $translationModel->where('tipoCaracter', 'caracterEspecial')
                      ->get(['braille', 'caracterEspanol']);
                      
-        return response()->json($lettersSpecial);
+        return response()->json($specialLetters);
     }
 
 }
