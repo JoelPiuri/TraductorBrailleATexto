@@ -82,8 +82,11 @@ class BrailleEspanolTranslationsController extends Controller
     
             if ($isNumberSequence) {
                 $query = $query->where('tipoCaracter', 'numero');
+                Log::info("Sentencia if in numero: $multiChar");
+
             } else {
                 $query = $query->whereIn('tipoCaracter', ['letra', 'caracterEspecial']);
+                Log::info("Sentencia if in letra: $multiChar");
             }
     
             $translation = $query->first();

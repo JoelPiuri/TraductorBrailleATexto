@@ -57,7 +57,7 @@ export default {
       this.brailleToSpanishResult = '';
     },
     addBrailleCharacter(brailleCharacter) {
-      this.brailleInput += brailleCharacter.caracterEspanol;
+      this.brailleInput += brailleCharacter.braille;
     },
     fetchLetters() {
       axios.post('/teclado-braille')
