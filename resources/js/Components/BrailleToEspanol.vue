@@ -3,8 +3,12 @@
     <h2>Braille a Español</h2>
     <div class="translation-box">
       <textarea v-model="brailleInput" placeholder="Introducir texto en Braille"></textarea>
-      <!-- Mostrar el teclado braille -->
-      <TecladoBraille :letters="letters" :numbers="numbers" :specialLetters="caracterSpecial" @key-click="addBrailleCharacter" />
+      <TecladoBraille
+        :letters="letters"
+        :numbers="numbers"
+        :specialLetters="specialLetters"
+        @key-click="addBrailleCharacter"
+      />
       <ul class="button-list">
         <li class="left-button">
           <button @click="deleteText" class="clear-button">Eliminar texto</button>
@@ -33,9 +37,9 @@ export default {
     return {
       brailleInput: '',
       brailleToSpanishResult: '',
-      letters: [], // Aquí almacenaremos temporalmente las letras para el teclado
+      letters: [],
       numbers: [],
-      caracterSpecial: []
+      specialLetters: []
     };
   },
   methods: {
@@ -53,7 +57,7 @@ export default {
       this.brailleToSpanishResult = '';
     },
     addBrailleCharacter(brailleCharacter) {
-      this.brailleInput += brailleCharacter.braille;
+      this.brailleInput += brailleCharacter.caracterEspanol;
     },
     fetchLetters() {
       axios.post('/teclado-braille')
@@ -64,7 +68,7 @@ export default {
           console.error('Error al cargar las letras:', error);
         });
     },
-    fetchNumber() {
+    fetchNumbers() {
       axios.post('/teclado-braille-number')
         .then(response => {
           this.numbers = response.data;
@@ -73,10 +77,10 @@ export default {
           console.error('Error al cargar los números:', error);
         });
     },
-    fetchCharacterEsp() {
+    fetchSpecialLetters() {
       axios.post('/teclado-braille-characterEsp')
         .then(response => {
-          this.caracterSpecial = response.data;
+          this.specialLetters = response.data;
         })
         .catch(error => {
           console.error('Error al cargar los caracteres especiales:', error);
@@ -85,8 +89,8 @@ export default {
   },
   mounted() {
     this.fetchLetters();
-    this.fetchNumber();
-    this.fetchCharacterEsp();
+    this.fetchNumbers();
+    this.fetchSpecialLetters();
   }
 };
-</script>
+</script> 

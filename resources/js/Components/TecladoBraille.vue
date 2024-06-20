@@ -1,10 +1,11 @@
 <template>
   <div class="keyboard">
+    <button @click="toggleCase">Mayúsculas/Minúsculas</button>
     <div class="letters-section">
       <h3>Letras</h3>
       <div
         v-for="letter in letters"
-        :key="letter.id"
+        :key="letter.braille"
         class="key"
         @click="handleKeyClick(letter)"
       >
@@ -15,7 +16,7 @@
       <h3>Números</h3>
       <div
         v-for="number in numbers"
-        :key="number.id"
+        :key="number.braille"
         class="key"
         @click="handleKeyClick(number)"
       >
@@ -26,7 +27,7 @@
       <h3>Caracteres Especiales</h3>
       <div
         v-for="specialLetter in specialLetters"
-        :key="specialLetter.id"
+        :key="specialLetter.braille"
         class="key"
         @click="handleKeyClick(specialLetter)"
       >
@@ -43,9 +44,22 @@ export default {
     numbers: Array,
     specialLetters: Array
   },
+  data() {
+    return {
+      isUpperCase: false
+    };
+  },
   methods: {
+    toggleCase() {
+      this.isUpperCase = !this.isUpperCase;
+    },
     handleKeyClick(character) {
-      this.$emit('key-click', character); // Emitir el carácter Braille en lugar del objeto completo
+      if (this.isUpperCase && character.tipoCaracter === 'letra') {
+        character.caracterEspanol = character.caracterEspanol.toUpperCase();
+      } else {
+        character.caracterEspanol = character.caracterEspanol.toLowerCase();
+      }
+      this.$emit('key-click', character);
     }
   }
 };

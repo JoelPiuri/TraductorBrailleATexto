@@ -70,39 +70,30 @@ class BrailleEspanolTranslationsController extends Controller
             if ($i + 1 < $brailleLength) {
                 $nextString = mb_substr($braille, $i + 1, 1);
                 $multiChar .= $nextString;
-                Log::info("Caracter especial encontrado: $multiChar");
-
+                $translation = $translationModel::where('braille', $multiChar)->first();
+                if ($translation) {
+                    $string = $multiChar;
+                    $i++;  // Saltar el siguiente carácter ya que se ha considerado como parte del carácter especial
+                    Log::info("Carácter especial detectado: $multiChar");
+                }
             }
-
-            Log::info("Antes de mandar como caracter especial: $multiChar");
-
     
             $query = $translationModel::where('braille', $string);
     
             if ($isNumberSequence) {
-                $query = $query->where('caracterEspanol', '>=', '0')->where('caracterEspanol', '<=', '9');
+                $query = $query->where('tipoCaracter', 'numero');
+            } else {
+                $query = $query->whereIn('tipoCaracter', ['letra', 'caracterEspecial']);
             }
-
+    
             $translation = $query->first();
-
+    
             if ($translation) {
                 $translatedChar = $translation->caracterEspanol;
-                Log::info("Carácter especial traducido: $translatedChar");
+                Log::info("Carácter traducido: $translatedChar");
             } else {
-                // Si no es un carácter especial, comprobar el carácter individual
-                Log::info("Antes de mandar como caracter individual: $multiChar");
-
-                $translation = $translationModel::where('braille', $string)->first();
-                if ($translation) {
-
-                    $translatedChar = $translation->caracterEspanol;
-                    Log::info("Carácter traducido: $translatedChar");
-
-                    }else{
-                    $translatedChar = '?';
-                    Log::info("No se encontró traducción para: $string, marcador especial añadido: ?");
-                }
-                
+                $translatedChar = '?';
+                Log::info("No se encontró traducción para: $string, marcador especial añadido: ?");
             }
     
             // Manejar letras mayúsculas
@@ -119,6 +110,14 @@ class BrailleEspanolTranslationsController extends Controller
         Log::info("Texto final: $text");
         return $text;
     }
+    
+
+    
+
+
+
+
+
     
     public function getLetters()
     {
