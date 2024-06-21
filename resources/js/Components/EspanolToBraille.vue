@@ -66,7 +66,7 @@ export default {
         saveAsPDF() {
             axios.get('/download-pdf', {
                 params: {
-                    text: this.spanishInput
+                    braille: this.spanishToBrailleResult
                 },
                 responseType: 'blob'
             }).then(response => {
@@ -81,6 +81,7 @@ export default {
                 console.error('Error downloading PDF:', error);
             });
         }
+
     }
 }
 </script>

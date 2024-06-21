@@ -15,7 +15,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/diccionario', function () {
+Route::get('/dictionary', function () {
     return Inertia::render('Dictionary');
 });
 

@@ -4,7 +4,7 @@
         <nav>
           <ul>
             <li><inertia-link href="/">Home</inertia-link></li>
-            <li><inertia-link href="/diccionario">Diccionario</inertia-link></li>
+            <li><inertia-link href="/dictionary">Diccionario</inertia-link></li>
           </ul>
         </nav>
       </div>
