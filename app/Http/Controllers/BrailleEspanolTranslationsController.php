@@ -76,7 +76,6 @@ class BrailleEspanolTranslationsController extends Controller
 
             Log::info("Antes de mandar como caracter especial: $multiChar");
 
-    
             $query = $translationModel::where('braille', $string);
     
             if ($isNumberSequence) {
@@ -119,6 +118,10 @@ class BrailleEspanolTranslationsController extends Controller
         Log::info("Texto final: $text");
         return $text;
     }
+
+
+
+
     
     public function getLetters()
     {
@@ -152,5 +155,38 @@ class BrailleEspanolTranslationsController extends Controller
                      
         return response()->json($lettersSpecial);
     }
+
+    public function getLettersMayus()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $lettersMayus = $translationModel->where('tipoCaracter', 'letraMayuscula')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($lettersMayus);
+    }
+
+    public function getVocalWhitTilde()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $lettersTilde = $translationModel->where('tipoCaracter', 'vocalConTilde')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($lettersTilde);
+    }
+
+    public function getVocalWhitTildeMayus()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $lettersTildeMayus = $translationModel->where('tipoCaracter', 'vocalConTildeMayuscula')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($lettersTildeMayus);
+    }   
 
 }
