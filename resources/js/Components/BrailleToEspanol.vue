@@ -1,4 +1,3 @@
-<!-- BrailleToEspanol.vue -->
 <template>
   <div class="section translation-container">
     <h2>Braille a Español</h2>
@@ -6,8 +5,7 @@
       <textarea v-model="brailleInput" placeholder="Introducir texto en Braille"></textarea>
       <div class="keyboard-options">
         <button @click="toggleCase">BloqMayús</button>
-        <button @click="toggleTilde">Tilde minúscula</button>
-        <button @click="toggleCaseTilde">Tilde mayúscula</button>
+        <button @click="toggleTilde">Tildes</button>
       </div>
       <TecladoBraille
         :letters="letters"
@@ -50,7 +48,8 @@ export default {
       numbers: [],
       specialLetters: [],
       isUpperCase: false,
-      isTilde: false
+      isTilde: false,
+      isNumberMode: false
     };
   },
   methods: {
@@ -109,7 +108,9 @@ export default {
         });
     },
     resetTecladoBraille() {
-      this.$refs.tecladoBraille.resetNumberMode();
+      if (this.isNumberMode && this.$refs.tecladoBraille && this.$refs.tecladoBraille.resetNumberMode) {
+        this.$refs.tecladoBraille.resetNumberMode();
+      }
     },
     toggleCase() {
       this.isUpperCase = !this.isUpperCase;
@@ -119,9 +120,11 @@ export default {
       this.isTilde = !this.isTilde;
       this.fetchLetters();
     },
-    toggleCaseTilde() {
-      this.isUpperCase = !this.isUpperCase;
-      this.isTilde = !this.isTilde;
+    toggleNumberMode() {
+      this.isNumberMode = !this.isNumberMode;
+      if (this.isNumberMode) {
+        this.resetTecladoBraille();
+      }
       this.fetchLetters();
     }
   },
@@ -132,4 +135,3 @@ export default {
   }
 };
 </script>
-
