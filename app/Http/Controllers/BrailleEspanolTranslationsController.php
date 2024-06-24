@@ -70,33 +70,38 @@ class BrailleEspanolTranslationsController extends Controller
             if ($i + 1 < $brailleLength) {
                 $nextString = mb_substr($braille, $i + 1, 1);
                 $multiChar .= $nextString;
-                $translation = $translationModel::where('braille', $multiChar)->first();
-                if ($translation) {
-                    $string = $multiChar;
-                    $i++;  // Saltar el siguiente carácter ya que se ha considerado como parte del carácter especial
-                    Log::info("Carácter especial detectado: $multiChar");
-                }
+                Log::info("Caracter especial encontrado: $multiChar");
+
             }
-    
+
+            Log::info("Antes de mandar como caracter especial: $multiChar");
+
             $query = $translationModel::where('braille', $string);
     
             if ($isNumberSequence) {
-                $query = $query->where('tipoCaracter', 'numero');
-                Log::info("Sentencia if in numero: $multiChar");
-
-            } else {
-                $query = $query->whereIn('tipoCaracter', ['letra', 'caracterEspecial']);
-                Log::info("Sentencia if in letra: $multiChar");
+                $query = $query->where('caracterEspanol', '>=', '0')->where('caracterEspanol', '<=', '9');
             }
-    
+
             $translation = $query->first();
-    
+
             if ($translation) {
                 $translatedChar = $translation->caracterEspanol;
-                Log::info("Carácter traducido: $translatedChar");
+                Log::info("Carácter especial traducido: $translatedChar");
             } else {
-                $translatedChar = '?';
-                Log::info("No se encontró traducción para: $string, marcador especial añadido: ?");
+                // Si no es un carácter especial, comprobar el carácter individual
+                Log::info("Antes de mandar como caracter individual: $multiChar");
+
+                $translation = $translationModel::where('braille', $string)->first();
+                if ($translation) {
+
+                    $translatedChar = $translation->caracterEspanol;
+                    Log::info("Carácter traducido: $translatedChar");
+
+                    }else{
+                    $translatedChar = '?';
+                    Log::info("No se encontró traducción para: $string, marcador especial añadido: ?");
+                }
+                
             }
     
             // Manejar letras mayúsculas
@@ -113,10 +118,6 @@ class BrailleEspanolTranslationsController extends Controller
         Log::info("Texto final: $text");
         return $text;
     }
-    
-
-    
-
 
 
 
@@ -149,10 +150,43 @@ class BrailleEspanolTranslationsController extends Controller
         $translationModel = new Translation();
         $translationModel->setTable('translationsBrailleEsp');
 
-        $specialLetters = $translationModel->where('tipoCaracter', 'caracterEspecial')
+        $lettersSpecial = $translationModel->where('tipoCaracter', 'caracterEspecial')
                      ->get(['braille', 'caracterEspanol']);
                      
-        return response()->json($specialLetters);
+        return response()->json($lettersSpecial);
     }
+
+    public function getLettersMayus()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $lettersMayus = $translationModel->where('tipoCaracter', 'letraMayuscula')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($lettersMayus);
+    }
+
+    public function getVocalWhitTilde()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $lettersTilde = $translationModel->where('tipoCaracter', 'vocalConTilde')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($lettersTilde);
+    }
+
+    public function getVocalWhitTildeMayus()
+    {
+        $translationModel = new Translation();
+        $translationModel->setTable('translationsBrailleEsp');
+
+        $lettersTildeMayus = $translationModel->where('tipoCaracter', 'vocalConTildeMayuscula')
+                     ->get(['braille', 'caracterEspanol']);
+                     
+        return response()->json($lettersTildeMayus);
+    }   
 
 }

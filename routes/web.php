@@ -26,3 +26,7 @@ Route::post('/translate-to-espanol', [BrailleEspanolTranslationsController::clas
 Route::post('/teclado-braille', [BrailleEspanolTranslationsController::class, 'getLetters']);
 Route::post('/teclado-braille-number', [BrailleEspanolTranslationsController::class, 'getNumbers']);
 Route::post('/teclado-braille-characterEsp', [BrailleEspanolTranslationsController::class, 'getSpecialCaracter']);
+Route::post('/teclado-braille-mayuscula', [BrailleEspanolTranslationsController::class, 'getLettersMayus']);
+Route::post('/teclado-braille-mayusculaTilde', [BrailleEspanolTranslationsController::class, 'getVocalWhitTildeMayus']);
+Route::post('/teclado-braille-minusculaTilde', [BrailleEspanolTranslationsController::class, 'getVocalWhitTilde']);
+

@@ -1,13 +1,22 @@
+<!-- BrailleToEspanol.vue -->
 <template>
   <div class="section translation-container">
     <h2>Braille a Español</h2>
     <div class="translation-box">
       <textarea v-model="brailleInput" placeholder="Introducir texto en Braille"></textarea>
+      <div class="keyboard-options">
+        <button @click="toggleCase">BloqMayús</button>
+        <button @click="toggleTilde">Tilde minúscula</button>
+        <button @click="toggleCaseTilde">Tilde mayúscula</button>
+      </div>
       <TecladoBraille
         :letters="letters"
         :numbers="numbers"
         :specialLetters="specialLetters"
         @key-click="addBrailleCharacter"
+        :isUpperCase="isUpperCase"
+        :isTilde="isTilde"
+        ref="tecladoBraille"
       />
       <ul class="button-list">
         <li class="left-button">
@@ -39,30 +48,43 @@ export default {
       brailleToSpanishResult: '',
       letters: [],
       numbers: [],
-      specialLetters: []
+      specialLetters: [],
+      isUpperCase: false,
+      isTilde: false
     };
   },
   methods: {
     translateBrailleToSpanish() {
-      axios.post('/translate-to-espanol', { text: this.brailleInput })
+      const brailleText = this.brailleInput;
+
+      axios.post('/translate-to-espanol', { text: brailleText })
         .then(response => {
           this.brailleToSpanishResult = response.data.espanol;
         })
         .catch(error => {
           console.error(error);
         });
+      this.resetTecladoBraille();
     },
     deleteText() {
       this.brailleInput = '';
       this.brailleToSpanishResult = '';
+      this.resetTecladoBraille();
     },
     addBrailleCharacter(brailleCharacter) {
-      this.brailleInput += brailleCharacter.braille;
+      this.brailleInput += brailleCharacter;
     },
     fetchLetters() {
-      axios.post('/teclado-braille')
+      let route;
+      if (this.isTilde) {
+        route = this.isUpperCase ? '/teclado-braille-mayusculaTilde' : '/teclado-braille-minusculaTilde';
+      } else {
+        route = this.isUpperCase ? '/teclado-braille-mayuscula' : '/teclado-braille';
+      }
+      axios.post(route)
         .then(response => {
-          this.letters = response.data;
+          const allLetters = response.data.concat(response.data.filter(letter => letter.tipoCaracter === 'letraMayuscula'));
+          this.letters = allLetters;
         })
         .catch(error => {
           console.error('Error al cargar las letras:', error);
@@ -85,6 +107,22 @@ export default {
         .catch(error => {
           console.error('Error al cargar los caracteres especiales:', error);
         });
+    },
+    resetTecladoBraille() {
+      this.$refs.tecladoBraille.resetNumberMode();
+    },
+    toggleCase() {
+      this.isUpperCase = !this.isUpperCase;
+      this.fetchLetters();
+    },
+    toggleTilde() {
+      this.isTilde = !this.isTilde;
+      this.fetchLetters();
+    },
+    toggleCaseTilde() {
+      this.isUpperCase = !this.isUpperCase;
+      this.isTilde = !this.isTilde;
+      this.fetchLetters();
     }
   },
   mounted() {
@@ -93,4 +131,5 @@ export default {
     this.fetchSpecialLetters();
   }
 };
-</script> 
+</script>
+

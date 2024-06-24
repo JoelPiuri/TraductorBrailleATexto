@@ -1,15 +1,15 @@
+<!-- TecladoBraille.vue -->
 <template>
   <div class="keyboard">
-    <button @click="toggleCase">Mayúsculas/Minúsculas</button>
     <div class="letters-section">
       <h3>Letras</h3>
       <div
         v-for="letter in letters"
         :key="letter.braille"
         class="key"
-        @click="handleKeyClick(letter)"
+        @click="handleKeyClick(letter, 'letra')"
       >
-        {{ letter.braille }}
+        {{ isUpperCase ? getUpperCaseBraille(letter.braille) : letter.braille }}
       </div>
     </div>
     <div class="numbers-section">
@@ -18,7 +18,7 @@
         v-for="number in numbers"
         :key="number.braille"
         class="key"
-        @click="handleKeyClick(number)"
+        @click="handleKeyClick(number, 'numero')"
       >
         {{ number.braille }}
       </div>
@@ -29,10 +29,15 @@
         v-for="specialLetter in specialLetters"
         :key="specialLetter.braille"
         class="key"
-        @click="handleKeyClick(specialLetter)"
+        @click="handleKeyClick(specialLetter, 'caracterEspecial')"
       >
         {{ specialLetter.braille }}
       </div>
+    </div>
+    <div class="utility-keys">
+      <div class="key" @click="handleKeyClick(' ', 'espacio')">Espacio</div>
+      <div class="key" @click="handleKeyClick('⠸⠲', 'enter')">Enter</div>
+      <div class="key" @click="handleKeyClick('⠼⠂', 'tab')">Tab</div>
     </div>
   </div>
 </template>
@@ -42,25 +47,31 @@ export default {
   props: {
     letters: Array,
     numbers: Array,
-    specialLetters: Array
-  },
-  data() {
-    return {
-      isUpperCase: false
-    };
+    specialLetters: Array,
+    isUpperCase: Boolean
   },
   methods: {
-    toggleCase() {
-      this.isUpperCase = !this.isUpperCase;
-    },
-    handleKeyClick(character) {
-      if (this.isUpperCase && character.tipoCaracter === 'letra') {
-        character.caracterEspanol = character.caracterEspanol.toUpperCase();
+    handleKeyClick(character, type) {
+      if (type === 'espacio' || type === 'enter' || type === 'tab') {
+        this.$emit('key-click', character);
       } else {
-        character.caracterEspanol = character.caracterEspanol.toLowerCase();
+        let brailleCharacter = character.braille;
+
+        if (type === 'numero') {
+          brailleCharacter = '⠼' + character.braille;
+        }
+
+        this.$emit('key-click', brailleCharacter);
       }
-      this.$emit('key-click', character);
+    },
+    getUpperCaseBraille(brailleCharacter) {
+      const uppercaseEntry = this.letters.find(entry => {
+        return entry.tipoCaracter === 'letraMayuscula' && entry.braille.toLowerCase() === brailleCharacter;
+      });
+
+      return uppercaseEntry ? uppercaseEntry.braille : brailleCharacter;
     }
   }
 };
 </script>
+

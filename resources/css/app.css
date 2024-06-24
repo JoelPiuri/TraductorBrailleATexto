@@ -240,3 +240,12 @@ h3 {
   .key:hover {
     background-color: #e0e0e0;
   }
+
+  .utility-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .utility-buttons .key {
+    margin-left: 5px;
+  }
