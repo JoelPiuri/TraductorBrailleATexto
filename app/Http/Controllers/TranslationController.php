@@ -74,22 +74,14 @@ class TranslationController extends Controller
                 return response()->json(['error' => 'No braille text provided'], 400);
             }
 
-            $lines = $this->splitTextIntoLines($braille, 40);
-            $lineHeight = 60;
-            $imageHeight = count($lines) * $lineHeight + 40;
-
-            $img = Image::canvas(1000, $imageHeight, '#fff');
-
-            foreach ($lines as $index => $line) {
-                $img->text($line, 400, ($index + 1) * $lineHeight, function ($font) {
-                    $font->file(public_path('fonts/DejaVuSans-Bold.ttf'));
-                    $font->size(48);
-                    $font->color('#000');
-                    $font->align('center');
-                    $font->valign('top');
-                });
-            }
-
+            $img = Image::canvas(800, 700, '#fff');
+            $img->text($braille, 400, 100, function ($font) {
+                $font->file(public_path('fonts/BRAILLE1.ttf'));
+                $font->size(48);
+                $font->color('#000');
+                $font->align('center');
+                $font->valign('center');
+            });
             Log::info("Image generated successfully with braille text: $braille");
 
             $path = public_path('braille.png');
