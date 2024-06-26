@@ -4,8 +4,8 @@
         <p>&copy; 2024 Braille Cat Traducciones. Todos los derechos reservados.</p>
         <nav>
           <ul>
-            <li><inertia-link href="/">Home</inertia-link></li>
-            <li><inertia-link href="/diccionario">Diccionario</inertia-link></li>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/dictionary">Diccionario</Link></li>
           </ul>
         </nav>
       </div>
@@ -13,7 +13,11 @@
   </template>
 
 <script>
+import { Link } from '@inertiajs/vue3';
     export default {
-        name:"footerComponent"
+        name:"footerComponent",
+    components: {
+        Link
+    }
     }
 </script>
