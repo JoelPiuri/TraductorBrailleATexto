@@ -188,6 +188,13 @@ class TranslationsTableSeeder extends Seeder
         ['braille' => '⠨⠬', 'caracterEspanol' => 'Ó', 'tipoCaracter' => 'vocalConTildeMayuscula'],
         ['braille' => '⠨⠾', 'caracterEspanol' => 'Ú', 'tipoCaracter' => 'vocalConTildeMayuscula'],
         ['braille' => '⠾⠈', 'caracterEspanol' => 'Ü', 'tipoCaracter' => 'vocalConTildeMayuscula'],
+        //Tilde
+        ['braille' => '⠁', 'caracterEspanol' => 'á','tipoCaracter' => 'vocalConTilde'],
+        ['braille' => '⠑', 'caracterEspanol' => 'é','tipoCaracter' => 'vocalConTilde'],
+        ['braille' => '⠊', 'caracterEspanol' => 'í','tipoCaracter' => 'vocalConTilde'],
+        ['braille' => '⠕', 'caracterEspanol' => 'ó','tipoCaracter' => 'vocalConTilde'],
+        ['braille' => '⠥', 'caracterEspanol' => 'ú','tipoCaracter' => 'vocalConTilde'],
+        ['braille' => '⠈', 'caracterEspanol' => 'ü','tipoCaracter' => 'vocalConTilde'],
         // Números
         ['braille' => '⠁', 'caracterEspanol' => '1','tipoCaracter' => 'numero'],
         ['braille' => '⠃', 'caracterEspanol' => '2','tipoCaracter' => 'numero'],

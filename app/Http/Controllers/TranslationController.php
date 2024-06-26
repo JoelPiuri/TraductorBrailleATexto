@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Translation;
 use Illuminate\Support\Facades\Log;
-use Barryvdh\DomPDF\Facade as PDF;
+use Mpdf\Mpdf;
 use Intervention\Image\Facades\Image;
 
 class TranslationController extends Controller
@@ -74,14 +74,21 @@ class TranslationController extends Controller
                 return response()->json(['error' => 'No braille text provided'], 400);
             }
 
-            $img = Image::canvas(800, 700, '#fff');
-            $img->text($braille, 400, 100, function ($font) {
-                $font->file(public_path('fonts/NotoSans-Regular.ttf'));
-                $font->size(48);
-                $font->color('#000');
-                $font->align('center');
-                $font->valign('center');
-            });
+            $lines = $this->splitTextIntoLines($braille, 40);
+            $lineHeight = 60;
+            $imageHeight = count($lines) * $lineHeight + 40;
+
+            $img = Image::canvas(1000, $imageHeight, '#fff');
+
+            foreach ($lines as $index => $line) {
+                $img->text($line, 400, ($index + 1) * $lineHeight, function ($font) {
+                    $font->file(public_path('fonts/DejaVuSans-Bold.ttf'));
+                    $font->size(48);
+                    $font->color('#000');
+                    $font->align('center');
+                    $font->valign('top');
+                });
+            }
             Log::info("Image generated successfully with braille text: $braille");
 
             $path = public_path('braille.png');
@@ -95,12 +102,37 @@ class TranslationController extends Controller
         }
     }
 
+    private function splitTextIntoLines($text, $maxCharsPerLine)
+    {
+        $words = explode(' ', $text);
+        $lines = [];
+        $currentLine = '';
+
+        foreach ($words as $word) {
+            if (strlen($currentLine . ' ' . $word) > $maxCharsPerLine) {
+                $lines[] = $currentLine;
+                $currentLine = $word;
+            } else {
+                $currentLine .= ($currentLine ? ' ' : '') . $word;
+            }
+        }
+
+        if ($currentLine) {
+            $lines[] = $currentLine;
+        }
+
+        return $lines;
+    }
+
+
     public function downloadPDF(Request $request)
     {
         try {
-            $text = $request->input('text');
-            $pdf = PDF::loadView('pdf_view', compact('text'));
-            return $pdf->download('manual-writing.pdf');
+            $braille = $request->input('braille');
+            $pdf = new Mpdf();
+            $html = view('pdf_view', compact('braille'))->render();
+            $pdf->WriteHTML($html);
+            return response($pdf->Output('manual-writing.pdf', 'S'))->header('Content-Type', 'application/pdf');
         } catch (\Exception $e) {
             Log::error("Error generating PDF: " . $e->getMessage());
             return response()->json(['error' => 'PDF generation failed'], 500);

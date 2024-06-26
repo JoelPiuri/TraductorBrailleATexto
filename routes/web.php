@@ -15,7 +15,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/diccionario', function () {
+Route::get('/dictionary', function () {
     return Inertia::render('Dictionary');
 });
 
@@ -25,8 +25,3 @@ Route::get('/download-pdf', [TranslationController::class, 'downloadPDF']);
 Route::post('/translate-to-espanol', [BrailleEspanolTranslationsController::class, 'translateToEspanol']);
 Route::post('/teclado-braille', [BrailleEspanolTranslationsController::class, 'getLetters']);
 Route::post('/teclado-braille-number', [BrailleEspanolTranslationsController::class, 'getNumbers']);
-Route::post('/teclado-braille-characterEsp', [BrailleEspanolTranslationsController::class, 'getSpecialCaracter']);
-Route::post('/teclado-braille-mayuscula', [BrailleEspanolTranslationsController::class, 'getLettersMayus']);
-Route::post('/teclado-braille-mayusculaTilde', [BrailleEspanolTranslationsController::class, 'getVocalWhitTildeMayus']);
-Route::post('/teclado-braille-minusculaTilde', [BrailleEspanolTranslationsController::class, 'getVocalWhitTilde']);
-

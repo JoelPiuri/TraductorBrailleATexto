@@ -49,18 +49,13 @@ export default {
             this.spanishToBrailleResult = '';
         },
         saveAsImage() {
-
-            if (!this.spanishToBrailleResult) {
-                console.error('No braille text to save as image.');
-                return;
-            }
             axios.post('/download-image', { braille: this.spanishToBrailleResult }, {
                 responseType: 'blob'
             }).then(response => {
                 const url = window.URL.createObjectURL(new Blob([response.data]));
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', 'translated-text.png');
+                link.setAttribute('download', 'translated-text-desde-php.png');
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
@@ -71,7 +66,7 @@ export default {
         saveAsPDF() {
             axios.get('/download-pdf', {
                 params: {
-                    text: this.spanishInput
+                    braille: this.spanishToBrailleResult
                 },
                 responseType: 'blob'
             }).then(response => {
@@ -86,6 +81,7 @@ export default {
                 console.error('Error downloading PDF:', error);
             });
         }
+
     }
 }
 </script>
