@@ -1,4 +1,11 @@
 <template>
+  <div class="section translation-container">
+    <h2>Braille a Español</h2>
+    <div class="translation-box">
+      <textarea v-model="brailleInput" placeholder="Introducir texto en Braille"></textarea>
+      <div class="keyboard-options">
+        <button @click="toggleCase">BloqMayús</button>
+        <button @click="toggleTilde">Tildes</button>
     <div class="section translation-container">
       <h2>Braille a Español</h2>
       <div class="translation-box">
@@ -21,6 +28,47 @@
         <p>{{ brailleToSpanishResult }}</p>
       </div>
     </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import TecladoBraille from './TecladoBraille.vue';
+
+export default {
+  name: 'BrailleToEspanol',
+  components: {
+    TecladoBraille
+  },
+  data() {
+    return {
+      brailleInput: '',
+      brailleToSpanishResult: '',
+      letters: [],
+      numbers: [],
+      specialLetters: [],
+      isUpperCase: false,
+      isTilde: false,
+      isNumberMode: false
+    };
+  },
+  methods: {
+    translateBrailleToSpanish() {
+      const brailleText = this.brailleInput;
+
+      axios.post('/translate-to-espanol', { text: brailleText })
+        .then(response => {
+          this.brailleToSpanishResult = response.data.espanol;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      this.resetTecladoBraille();
+    },
+    deleteText() {
+      this.brailleInput = '';
+      this.brailleToSpanishResult = '';
+      this.resetTecladoBraille();
   </template>
   
   <script>
@@ -79,9 +127,54 @@
           });
       }
     },
+    fetchNumbers() {
+      axios.post('/teclado-braille-number')
+        .then(response => {
+          this.numbers = response.data;
+        })
+        .catch(error => {
+          console.error('Error al cargar los números:', error);
+        });
+    },
+    fetchSpecialLetters() {
+      axios.post('/teclado-braille-characterEsp')
+        .then(response => {
+          this.specialLetters = response.data;
+        })
+        .catch(error => {
+          console.error('Error al cargar los caracteres especiales:', error);
+        });
+    },
+    resetTecladoBraille() {
+      if (this.isNumberMode && this.$refs.tecladoBraille && this.$refs.tecladoBraille.resetNumberMode) {
+        this.$refs.tecladoBraille.resetNumberMode();
+      }
+    },
+    toggleCase() {
+      this.isUpperCase = !this.isUpperCase;
+      this.fetchLetters();
+    },
+    toggleTilde() {
+      this.isTilde = !this.isTilde;
+      this.fetchLetters();
+    },
+    toggleNumberMode() {
+      this.isNumberMode = !this.isNumberMode;
+      if (this.isNumberMode) {
+        this.resetTecladoBraille();
+      }
     mounted() {
       this.fetchLetters();
       this.fetchNumber();
     }
+  },
+  mounted() {
+    this.fetchLetters();
+    this.fetchNumbers();
+    this.fetchSpecialLetters();
+  }
+};
+</script>
+
   };
   </script>
