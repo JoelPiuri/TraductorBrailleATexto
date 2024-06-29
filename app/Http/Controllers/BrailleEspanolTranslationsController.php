@@ -65,38 +65,54 @@ class BrailleEspanolTranslationsController extends Controller
                 continue;
             }
     
+            // Detectar salto de línea (Enter)
+            if ($string === "\n") {
+                $isNumberSequence = false;
+                $text .= "\n"; // Agregar un salto de línea al texto
+                Log::info("Salto de línea detectado");
+                continue;
+            }
+    
+            // Detectar tabulación
+            if ($string === "\t") {
+                $isNumberSequence = false;
+                $text .= "\t"; // Agregar una tabulación al texto
+                Log::info("Tabulación detectada");
+                continue;
+            }
+    
             // Comprobar si el carácter Braille actual forma parte de un carácter especial de más de una celda
             $multiChar = $string;
             if ($i + 1 < $brailleLength) {
                 $nextString = mb_substr($braille, $i + 1, 1);
                 $multiChar .= $nextString;
                 Log::info("Caracter especial encontrado: $multiChar");
-
+    
             }
-
+    
             Log::info("Antes de mandar como caracter especial: $multiChar");
-
+    
             $query = $translationModel::where('braille', $string);
     
             if ($isNumberSequence) {
                 $query = $query->where('caracterEspanol', '>=', '0')->where('caracterEspanol', '<=', '9');
             }
-
+    
             $translation = $query->first();
-
+    
             if ($translation) {
                 $translatedChar = $translation->caracterEspanol;
                 Log::info("Carácter especial traducido: $translatedChar");
             } else {
                 // Si no es un carácter especial, comprobar el carácter individual
                 Log::info("Antes de mandar como caracter individual: $multiChar");
-
+    
                 $translation = $translationModel::where('braille', $string)->first();
                 if ($translation) {
-
+    
                     $translatedChar = $translation->caracterEspanol;
                     Log::info("Carácter traducido: $translatedChar");
-
+    
                     }else{
                     $translatedChar = '?';
                     Log::info("No se encontró traducción para: $string, marcador especial añadido: ?");
@@ -118,6 +134,7 @@ class BrailleEspanolTranslationsController extends Controller
         Log::info("Texto final: $text");
         return $text;
     }
+    
 
 
 

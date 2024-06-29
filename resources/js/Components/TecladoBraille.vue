@@ -1,4 +1,3 @@
-<!-- TecladoBraille.vue -->
 <template>
   <div class="keyboard">
     <div class="letters-section">
@@ -36,8 +35,8 @@
     </div>
     <div class="utility-keys">
       <div class="key" @click="handleKeyClick(' ', 'espacio')">Espacio</div>
-      <div class="key" @click="handleKeyClick('⠸⠲', 'enter')">Enter</div>
-      <div class="key" @click="handleKeyClick('⠼⠂', 'tab')">Tab</div>
+      <div class="key" @click="handleKeyClick('\n', 'enter')">Enter</div>
+      <div class="key" @click="handleKeyClick('\t', 'tab')">Tab</div>
     </div>
   </div>
 </template>
@@ -52,18 +51,17 @@ export default {
   },
   methods: {
     handleKeyClick(character, type) {
-      let brailleCharacter = character.braille;
+      let brailleCharacter;
 
-      if (this.isUpperCase && type === 'letra') {
-        // Convertir la letra a mayúscula (si fuese relevante en braille)
+      if (type === 'letra') {
+        brailleCharacter = this.isUpperCase ? this.getUpperCaseBraille(character.braille) : character.braille;
       } else if (type === 'numero') {
-        if (!this.isNumberMode) {
-          brailleCharacter = '⠼' + character.braille;
-          this.isNumberMode = true;
-        } else {
-          brailleCharacter = character.braille;
-        }
+        brailleCharacter = this.isNumberMode ? character.braille : '⠼' + character.braille;
+        this.isNumberMode = true;
+      } else if (type === 'caracterEspecial') {
+        brailleCharacter = character.braille;
       } else {
+        brailleCharacter = character; // Espacio, Enter, Tab
         this.isNumberMode = false; // Salir del modo número si se hace clic en otra cosa
       }
 
@@ -79,4 +77,3 @@ export default {
   }
 };
 </script>
-
