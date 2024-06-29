@@ -4,8 +4,8 @@
     <div class="translation-box">
       <textarea v-model="brailleInput" placeholder="Introducir texto en Braille"></textarea>
       <div class="keyboard-options">
-        <button @click="toggleCase">BloqMayús</button>
-        <button @click="toggleTilde">Tildes</button>
+        <button @click="toggleCase" class="otherbutton">BloqMayús</button>
+        <button @click="toggleTilde" class="otherbutton">Tildes</button>
       </div>
       <TecladoBraille
         :letters="letters"
