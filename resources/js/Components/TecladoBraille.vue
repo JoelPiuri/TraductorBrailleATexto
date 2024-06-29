@@ -32,35 +32,6 @@
 
 <script>
 export default {
-  props: {
-    letters: Array,
-    numbers: Array,
-    specialLetters: Array,
-    isUpperCase: Boolean
-  },
-  methods: {
-    handleKeyClick(character, type) {
-      let brailleCharacter = character.braille;
-
-      if (this.isUpperCase && type === 'letra') {
-        // Convertir la letra a mayúscula (si fuese relevante en braille)
-      } else if (type === 'numero') {
-        if (!this.isNumberMode) {
-          brailleCharacter = '⠼' + character.braille;
-          this.isNumberMode = true;
-        } else {
-          brailleCharacter = character.braille;
-        }
-      } else {
-        this.isNumberMode = false; // Salir del modo número si se hace clic en otra cosa
-      }
-
-      this.$emit('key-click', brailleCharacter);
-    },
-    getUpperCaseBraille(brailleCharacter) {
-      const uppercaseEntry = this.letters.find(entry => {
-        return entry.tipoCaracter === 'letraMayuscula' && entry.braille.toLowerCase() === brailleCharacter;
-      });
     props: {
         letters: Array,
         numbers: Array,
@@ -89,5 +60,6 @@ export default {
             return uppercaseEntry ? uppercaseEntry.braille : brailleCharacter;
         }
     }
+
 };
 </script>

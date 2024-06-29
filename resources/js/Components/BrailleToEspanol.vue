@@ -8,8 +8,8 @@
         @input="validateBrailleInput"
       ></textarea>
       <div class="keyboard-options">
-        <button @click="toggleCase" class="otherbutton">BloqMayús</button>
-        <button @click="toggleTilde" class="otherbutton">Tildes</button>
+        <button @click="toggleCase" class="otherfuncion">BloqMayús</button>
+        <button @click="toggleTilde" class="otherfuncion">Tildes</button>
       </div>
       <TecladoBraille
         :letters="letters"
