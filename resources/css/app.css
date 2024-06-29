@@ -196,36 +196,30 @@ h3 {
     transform: scaleX(-1);
     direction: rtl;
 }
-  
-.container {
-    display: grid;
-    grid-template-rows: 1fr 2fr;
-    grid-gap: 20px;
-    padding: 20px;
-  }
-  
+
+
   .keyboard {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-gap: 10px;
     padding: 20px;
   }
-  
+
   .letters-section {
     grid-column: 1 / -1;
     grid-row: 1 / 3;
   }
-  
+
   .numbers-section {
     grid-column: 1 / -1;
     grid-row: 3 / 5;
   }
-  
+
   .special-letters-section {
     grid-column: 1 / -1;
     grid-row: 5 / 7;
   }
-  
+
   .key {
     padding: 10px;
     border: 1px solid #ccc;
@@ -236,7 +230,7 @@ h3 {
     font-weight: bold;
     transition: background-color 0.3s ease;
   }
-  
+
   .key:hover {
     background-color: #e0e0e0;
   }
@@ -248,4 +242,12 @@ h3 {
 
   .utility-buttons .key {
     margin-left: 5px;
+  }
+
+  .otherbutton{
+    background-color: #6c3483;
+  }
+
+  .otherbutton:hover{
+    background-color: #bb8fce;
   }

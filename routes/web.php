@@ -15,9 +15,11 @@ Route::get('/', function () {
 });
 
 
-Route::get('/diccionario', function () {
+Route::get('/dictionary', function () {
     return Inertia::render('Dictionary');
 });
+
+
 
 Route::post('/translate-to-braille', [TranslationController::class, 'translateToBraille']);
 Route::post('/download-image', [TranslationController::class, 'downloadImage']);
