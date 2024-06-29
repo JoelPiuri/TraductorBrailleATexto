@@ -12,8 +12,11 @@
             <div>
                 <h3>Lectura:</h3>
                 <p>{{ spanishToBrailleResult }}</p>
+                <button @click="copytxt" class="copybtn">Copiar texto</button>
                 <button @click="saveAsImage" class="otherbutton">Descargar Imagen</button>
+
             </div>
+
             <div>
                 <h3>Escritura Manual:</h3>
                 <p class="mirror-text">{{ spanishToBrailleResult }}</p>
@@ -80,6 +83,24 @@ export default {
             }).catch(error => {
                 console.error('Error downloading PDF:', error);
             });
+        },
+        copytxt() {
+            const textToCopy = this.$refs.spanishToBrailleResult;
+            const range = document.createRange();
+            range.selectNodeContents(textToCopy);
+            const selection = window.getSelection();
+            selection.removeAllRanges(); // Clear previous selections
+            selection.addRange(range);
+
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'Texto copiado al portapapeles' : 'Error al copiar el texto';
+                alert(msg);
+            } catch (err) {
+                console.error('Error al copiar el texto: ', err);
+            }
+
+            selection.removeAllRanges(); // Deselect after copying
         }
 
     }

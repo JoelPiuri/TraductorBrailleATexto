@@ -3,8 +3,8 @@
       <div class="container">
         <nav>
           <ul>
-            <li><inertia-link href="/">Home</inertia-link></li>
-            <li><inertia-link href="/dictionary">Diccionario</inertia-link></li>
+            <li><Link href="/">Home</Link></li>
+            <li><Link href="/dictionary">Diccionario</Link></li>
           </ul>
         </nav>
       </div>
@@ -12,9 +12,14 @@
   </template>
 
 <script>
-    export default {
-        name:"headerComponent"
+import { Link } from '@inertiajs/vue3';
+
+export default {
+    name: "HeaderComponent",
+    components: {
+        Link
     }
+} 
 </script>
 
 
