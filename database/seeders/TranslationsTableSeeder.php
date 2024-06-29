@@ -239,7 +239,7 @@ class TranslationsTableSeeder extends Seeder
         ['braille' => '⠸⠶', 'caracterEspanol' => '|','tipoCaracter' => 'caracterEspecial'],
         ['braille' => '⠘⠹', 'caracterEspanol' => '~','tipoCaracter' => 'caracterEspecial'],
         ['braille' => '⠐', 'caracterEspanol' => '`','tipoCaracter' => 'caracterEspecial'],
-        
+
     ];
 
     DB::table('translationsBrailleEsp')->insert($translationsBrailleEsp);
