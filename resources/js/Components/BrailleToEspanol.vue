@@ -2,7 +2,11 @@
   <div class="section translation-container">
     <h2>Braille a Español</h2>
     <div class="translation-box">
-      <textarea v-model="brailleInput" placeholder="Introducir texto en Braille"></textarea>
+      <textarea
+        v-model="brailleInput"
+        placeholder="Introducir texto en Braille"
+        @input="validateBrailleInput"
+      ></textarea>
       <div class="keyboard-options">
         <button @click="toggleCase" class="otherbutton">BloqMayús</button>
         <button @click="toggleTilde" class="otherbutton">Tildes</button>
@@ -49,7 +53,8 @@ export default {
       specialLetters: [],
       isUpperCase: false,
       isTilde: false,
-      isNumberMode: false
+      isNumberMode: false,
+      brailleCharacters: '⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿ '
     };
   },
   methods: {
@@ -72,6 +77,9 @@ export default {
     },
     addBrailleCharacter(brailleCharacter) {
       this.brailleInput += brailleCharacter;
+    },
+    validateBrailleInput() {
+      this.brailleInput = this.brailleInput.split('').filter(char => this.brailleCharacters.includes(char)).join('');
     },
     fetchLetters() {
       let route;
