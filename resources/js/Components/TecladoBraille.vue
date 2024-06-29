@@ -52,17 +52,22 @@ export default {
   },
   methods: {
     handleKeyClick(character, type) {
-      if (type === 'espacio' || type === 'enter' || type === 'tab') {
-        this.$emit('key-click', character);
-      } else {
-        let brailleCharacter = character.braille;
+      let brailleCharacter = character.braille;
 
-        if (type === 'numero') {
+      if (this.isUpperCase && type === 'letra') {
+        // Convertir la letra a mayúscula (si fuese relevante en braille)
+      } else if (type === 'numero') {
+        if (!this.isNumberMode) {
           brailleCharacter = '⠼' + character.braille;
+          this.isNumberMode = true;
+        } else {
+          brailleCharacter = character.braille;
         }
-
-        this.$emit('key-click', brailleCharacter);
+      } else {
+        this.isNumberMode = false; // Salir del modo número si se hace clic en otra cosa
       }
+
+      this.$emit('key-click', brailleCharacter);
     },
     getUpperCaseBraille(brailleCharacter) {
       const uppercaseEntry = this.letters.find(entry => {
