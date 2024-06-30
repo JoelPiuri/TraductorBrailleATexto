@@ -172,8 +172,8 @@ class TranslationsTableSeeder extends Seeder
         ['braille' => '⠨⠵', 'caracterEspanol' => 'Z', 'tipoCaracter' => 'letraMayuscula'],
         // Otros caracteres
         ['braille' => '  ', 'caracterEspanol' => ' ', 'tipoCaracter' => 'espacio'],
-        ['braille' => '⠾', 'caracterEspanol' => '\n', 'tipoCaracter' => 'enter'],
-        ['braille' => '⠾', 'caracterEspanol' => '\t', 'tipoCaracter' => 'tab'],
+        ['braille' => "\n", 'caracterEspanol' => "\n", 'tipoCaracter' => 'enter'],
+        ['braille' => "\t", 'caracterEspanol' => "\t", 'tipoCaracter' => 'tab'],
         //Tilde
         ['braille' => '⠾', 'caracterEspanol' => 'á','tipoCaracter' => 'vocalConTilde'],
         ['braille' => '⠬', 'caracterEspanol' => 'é','tipoCaracter' => 'vocalConTilde'],

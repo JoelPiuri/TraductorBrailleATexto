@@ -10,6 +10,7 @@
       <div class="keyboard-options">
         <button @click="toggleCase">BloqMayús</button>
         <button @click="toggleTilde">Tildes</button>
+        <button @click="toggleNumberMode">Números</button>
       </div>
       <TecladoBraille
         :letters="letters"
@@ -17,7 +18,6 @@
         :specialLetters="specialLetters"
         @key-click="addBrailleCharacter"
         :isUpperCase="isUpperCase"
-        :isTilde="isTilde"
         ref="tecladoBraille"
       />
       <ul class="button-list">
@@ -52,9 +52,7 @@ export default {
       numbers: [],
       specialLetters: [],
       isUpperCase: false,
-      isTilde: false,
-      isNumberMode: false,
-      brailleCharacters: '⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿ '
+      isTilde: false
     };
   },
   methods: {
@@ -64,23 +62,38 @@ export default {
       axios.post('/translate-to-espanol', { text: brailleText })
         .then(response => {
           this.brailleToSpanishResult = response.data.espanol;
+          this.resetTecladoBraille();
         })
         .catch(error => {
           console.error(error);
         });
-      this.resetTecladoBraille();
     },
+
     deleteText() {
       this.brailleInput = '';
       this.brailleToSpanishResult = '';
       this.resetTecladoBraille();
     },
+
     addBrailleCharacter(brailleCharacter) {
       this.brailleInput += brailleCharacter;
     },
+
     validateBrailleInput() {
-      this.brailleInput = this.brailleInput.split('').filter(char => this.brailleCharacters.includes(char)).join('');
+      // Validar y filtrar solo caracteres válidos de Braille
+      axios.post('/teclado-braille')
+        .then(response => {
+          const validBrailleCharacters = response.data;
+          this.brailleInput = this.brailleInput
+            .split('')
+            .filter(char => validBrailleCharacters.includes(char))
+            .join('');
+        })
+        .catch(error => {
+          console.error('Error al validar caracteres Braille:', error);
+        });
     },
+
     fetchLetters() {
       let route;
       if (this.isTilde) {
@@ -88,15 +101,16 @@ export default {
       } else {
         route = this.isUpperCase ? '/teclado-braille-mayuscula' : '/teclado-braille';
       }
+
       axios.post(route)
         .then(response => {
-          const allLetters = response.data.concat(response.data.filter(letter => letter.tipoCaracter === 'letraMayuscula'));
-          this.letters = allLetters;
+          this.letters = response.data;
         })
         .catch(error => {
           console.error('Error al cargar las letras:', error);
         });
     },
+
     fetchNumbers() {
       axios.post('/teclado-braille-number')
         .then(response => {
@@ -106,6 +120,7 @@ export default {
           console.error('Error al cargar los números:', error);
         });
     },
+
     fetchSpecialLetters() {
       axios.post('/teclado-braille-characterEsp')
         .then(response => {
@@ -115,27 +130,27 @@ export default {
           console.error('Error al cargar los caracteres especiales:', error);
         });
     },
+
     resetTecladoBraille() {
-      if (this.isNumberMode && this.$refs.tecladoBraille && this.$refs.tecladoBraille.resetNumberMode) {
-        this.$refs.tecladoBraille.resetNumberMode();
-      }
+      this.$refs.tecladoBraille.resetNumberMode();
     },
+
     toggleCase() {
       this.isUpperCase = !this.isUpperCase;
       this.fetchLetters();
     },
+
     toggleTilde() {
       this.isTilde = !this.isTilde;
       this.fetchLetters();
     },
+
     toggleNumberMode() {
-      this.isNumberMode = !this.isNumberMode;
-      if (this.isNumberMode) {
-        this.resetTecladoBraille();
-      }
+      this.resetTecladoBraille();
       this.fetchLetters();
     }
   },
+
   mounted() {
     this.fetchLetters();
     this.fetchNumbers();

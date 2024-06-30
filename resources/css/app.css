@@ -249,3 +249,9 @@ h3 {
   .utility-buttons .key {
     margin-left: 5px;
   }
+
+
+.result-box p {
+  white-space: pre-wrap; /* Para mantener saltos de línea y espacios */
+  font-family: monospace; /* Estilo de fuente fija para mantener la alineación */
+}

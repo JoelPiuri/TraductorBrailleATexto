@@ -57,7 +57,7 @@ class BrailleEspanolTranslationsController extends Controller
                 continue;
             }
     
-            // Detectar espacio en blanco (una celda vacía)
+            // Manejar espacio en blanco
             if ($string === ' ') {
                 $isNumberSequence = false;  // Restablecer la secuencia de números al encontrar un espacio
                 $text .= ' '; // Agregar un espacio en blanco al texto
@@ -65,7 +65,7 @@ class BrailleEspanolTranslationsController extends Controller
                 continue;
             }
     
-            // Detectar salto de línea (Enter)
+            // Manejar salto de línea
             if ($string === "\n") {
                 $isNumberSequence = false;
                 $text .= "\n"; // Agregar un salto de línea al texto
@@ -73,7 +73,7 @@ class BrailleEspanolTranslationsController extends Controller
                 continue;
             }
     
-            // Detectar tabulación
+            // Manejar tabulación
             if ($string === "\t") {
                 $isNumberSequence = false;
                 $text .= "\t"; // Agregar una tabulación al texto
@@ -87,7 +87,6 @@ class BrailleEspanolTranslationsController extends Controller
                 $nextString = mb_substr($braille, $i + 1, 1);
                 $multiChar .= $nextString;
                 Log::info("Caracter especial encontrado: $multiChar");
-    
             }
     
             Log::info("Antes de mandar como caracter especial: $multiChar");
@@ -109,15 +108,12 @@ class BrailleEspanolTranslationsController extends Controller
     
                 $translation = $translationModel::where('braille', $string)->first();
                 if ($translation) {
-    
                     $translatedChar = $translation->caracterEspanol;
                     Log::info("Carácter traducido: $translatedChar");
-    
-                    }else{
+                } else {
                     $translatedChar = '?';
                     Log::info("No se encontró traducción para: $string, marcador especial añadido: ?");
                 }
-                
             }
     
             // Manejar letras mayúsculas
@@ -135,8 +131,6 @@ class BrailleEspanolTranslationsController extends Controller
         return $text;
     }
     
-
-
 
 
     

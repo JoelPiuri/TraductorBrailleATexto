@@ -49,15 +49,24 @@ export default {
     specialLetters: Array,
     isUpperCase: Boolean
   },
+  data() {
+    return {
+      isNumberMode: false
+    };
+  },
   methods: {
     handleKeyClick(character, type) {
-      let brailleCharacter;
+      let brailleCharacter = '';
 
       if (type === 'letra') {
         brailleCharacter = this.isUpperCase ? this.getUpperCaseBraille(character.braille) : character.braille;
       } else if (type === 'numero') {
-        brailleCharacter = this.isNumberMode ? character.braille : '⠼' + character.braille;
-        this.isNumberMode = true;
+        if (!this.isNumberMode) {
+          brailleCharacter = '⠼' + character.braille;
+          this.isNumberMode = true;
+        } else {
+          brailleCharacter = character.braille;
+        }
       } else if (type === 'caracterEspecial') {
         brailleCharacter = character.braille;
       } else {
@@ -65,7 +74,12 @@ export default {
         this.isNumberMode = false; // Salir del modo número si se hace clic en otra cosa
       }
 
-      this.$emit('key-click', brailleCharacter);
+      if (brailleCharacter !== '') {
+        this.$emit('key-click', brailleCharacter);
+      }
+    },
+    resetNumberMode() {
+      this.isNumberMode = false;
     },
     getUpperCaseBraille(brailleCharacter) {
       const uppercaseEntry = this.letters.find(entry => {
