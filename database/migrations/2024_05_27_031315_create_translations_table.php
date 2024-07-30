@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->char('caracterEspanol', 1)->collation('utf8mb4_bin')->unique();
             $table->string('braille')->collation('utf8mb4_bin');
-            //$table->string('tipoCaracter');
+            $table->string('tipoCaracter');
             $table->timestamps();
 
             // Establecer charset y collation

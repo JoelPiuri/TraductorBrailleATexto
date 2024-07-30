@@ -3,6 +3,40 @@
         <HeaderComponent></HeaderComponent>
         <div class="main-content">
             <h1>Bienvenido al Diccionario de Cat Traducciones</h1>
+            <div class="button-section">
+                <div class="button-item" @click="loadTable('lowCase')">
+                    <img src="ruta/a/icono_minusculas.png" alt="Letras Minúsculas">
+                    <button>Letras Minúsculas</button>
+                </div>
+                <div class="button-item" @click="loadTable('upperCase')">
+                    <img src="ruta/a/icono_mayusculas.png" alt="Letras Mayúsculas">
+                    <button>Letras Mayúsculas</button>
+                </div>
+                <div class="button-item" @click="loadTable('number')">
+                    <img src="ruta/a/icono_numeros.png" alt="Números">
+                    <button>Números</button>
+                </div>
+                <div class="button-item" @click="loadTable('specialCaracter')">
+                    <img src="ruta/a/icono_caracteres_especiales.png" alt="Caracteres Especiales">
+                    <button>Caracteres Especiales</button>
+                </div>
+            </div>
+            <div class="table-section">
+                <table v-if="tableData.length">
+                    <thead>
+                        <tr>
+                            <th>Carácter</th>
+                            <th>Braille</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in tableData" :key="index">
+                            <td>{{ item.caracterEspanol }}</td>
+                            <td>{{ item.braille }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <FooterComponent></FooterComponent>
     </div>
@@ -16,7 +50,22 @@ export default {
     components: {
         HeaderComponent,
         FooterComponent,
+    },
+    data() {
+        return {
+            tableData: []
+        };
+    },
+    methods: {
+        loadTable(type) {
+            axios.get(`/dictionary/${type}`)
+                .then(response => {
+                    this.tableData = response.data;
+                })
+                .catch(error => {
+                    console.error('Error loading table data:', error);
+                });
+        }
     }
 }
 </script>
-

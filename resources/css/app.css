@@ -267,3 +267,44 @@ h3 {
 .otherfuncion:hover {
     background-color: #cacfd2;
 }
+
+.dictionary-container {
+    text-align: center;
+}
+
+.button-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.button-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-item img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.table-section {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.result-box p {
+    white-space: pre-wrap; /* CSS para manejar los saltos de línea */
+}

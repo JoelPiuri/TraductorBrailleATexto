@@ -34,6 +34,11 @@ class TranslationController extends Controller
         for ($i = 0; $i < mb_strlen($text); $i++) {
             $char = mb_substr($text, $i, 1);
 
+            // Detect new lines
+            if ($char === "\n") {
+                $brailleText .= "\n";  // Add a new line in the Braille text
+                continue;
+            }
             // Detect if the character is a number
             if (is_numeric($char)) {
                 if (!$isNumberSequence) {
@@ -74,9 +79,9 @@ class TranslationController extends Controller
                 return response()->json(['error' => 'No braille text provided'], 400);
             }
 
-            $lines = $this->splitTextIntoLines($braille, 40);
+            $lines = $this->splitTextIntoLines($braille, 60);
             $lineHeight = 60;
-            $imageHeight = count($lines) * $lineHeight + 40;
+            $imageHeight = count($lines) * $lineHeight + 400;
 
             $img = Image::canvas(1000, $imageHeight, '#fff');
 

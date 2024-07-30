@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TranslationController;
 use App\Http\Controllers\BrailleEspanolTranslationsController;
+use App\Http\Controllers\DictionaryController;
 
 
 Route::get('/', function () {
@@ -20,7 +21,7 @@ Route::get('/dictionary', function () {
 });
 
 
-
+Route::get('/dictionary/{type}', [DictionaryController::class, 'getTableData']);
 Route::post('/translate-to-braille', [TranslationController::class, 'translateToBraille']);
 Route::post('/download-image', [TranslationController::class, 'downloadImage']);
 Route::get('/download-pdf', [TranslationController::class, 'downloadPDF']);
