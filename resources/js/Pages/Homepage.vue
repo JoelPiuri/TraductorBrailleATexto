@@ -7,7 +7,6 @@
                 <BrailleToEspanol></BrailleToEspanol>
                 <EspanolToBraille></EspanolToBraille>
             </div>
-            <TecladoBraille></TecladoBraille>
         </div>
         <FooterComponent></FooterComponent>
     </div>
@@ -19,8 +18,6 @@ import HeaderComponent from '../Components/HeaderComponet.vue';
 import FooterComponent from '../Components/FooterComponent.vue';
 import EspanolToBraille from '../Components/EspanolToBraille.vue';
 import BrailleToEspanol from '../Components/BrailleToEspanol.vue';
-import TecladoBraille from '../Components/TecladoBraille.vue';
-import axios from 'axios';
 
 
 

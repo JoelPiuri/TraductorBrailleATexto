@@ -12,7 +12,6 @@
             <div>
                 <h3>Lectura:</h3>
                 <p>{{ spanishToBrailleResult }}</p>
-                <!--<button @click="copytxt" class="copybtn">Copiar texto</button> -->
                 <button @click="saveAsImage" class="otherbutton">Descargar Imagen</button>
 
             </div>
