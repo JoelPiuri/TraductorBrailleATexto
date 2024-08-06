@@ -1,0 +1,6 @@
+projectKey=TraductorBrailleATexto
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=TraductorBrailleATexto
+ceTaskId=1058fed3-cc07-43b4-bde6-1b1b96b55a48
+ceTaskUrl=http://localhost:9000/api/ce/task?id=1058fed3-cc07-43b4-bde6-1b1b96b55a48
